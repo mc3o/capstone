@@ -1,0 +1,25 @@
+{
+  "name": "capstoneproject",
+  "version": "1.0.0",
+  "description": "document everthing I have learnt about node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "localtunnel": "lt --port 2001",
+    "share": "start localtunnel"
+  },
+  "author": "Joan",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "pg": "^7.18.2",
+    "pug": "^2.0.4"
+  },
+  "nodemonConfig": {
+    "delay": "2500"
+  }
+}
