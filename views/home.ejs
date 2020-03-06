@@ -1,143 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <title><% title %> </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>
+        <% title %>
+    </title>
 </head>
+
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">Features</a>
-        <a class="nav-item nav-link" href="#">Pricing</a>
-        <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-      </div>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="#">Features</a>
+                <a class="nav-item nav-link" href="#">Pricing</a>
+                <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </div>
+        </div>
+    </nav>
+    <div class="row justify-content-md-center">
+
+        <table class="table col-sm-6">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">name</th>
+                    <th scope="col">age</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% for (key in teachers) {%>
+                    <tr>
+                        <td>
+                            <%= teachers[key].id %>
+                        </td>
+                        <td>
+                            <%= teachers[key].name %>
+                        </td>
+                        <td>
+                            <%= teachers[key].age %>
+                        </td>
+                        <!-- <td><button class = "btn btn-secondary" id = "edit-button" data-toggle = "modal" data-target = "#editTeacherModal" data-id="<%= teachers[key].id%>" data-name="<%=teachers[key].name%>" data-age= "<%=teachers[key].age%>">edit</button></td>
+        <td><button class = "btn btn-danger" id = "delete-button" data-id="<%= teachers[key].id %> ">delete</button></td> -->
+
+                        <!-- Pass each set of data individually once the user clicks on the edit button or delete button -->
+                        <td><button class="btn btn-secondary" id="edit-button" data-toggle="modal" data-target="#editTeacherModal" onClick="editTeacher('<%= JSON.stringify(teachers[key]) %>')">edit</button></td>
+                        <td><button class="btn btn-danger" id="delete-button" data-id="<%= teachers[key].id %> ">delete</button></td>
+
+                    </tr>
+                    <% } %>
+
+            </tbody>
+        </table>
     </div>
-  </nav>
-  <div class="row justify-content-md-center">
 
-  <table class="table col-sm-6">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">name</th>
-        <th scope="col">age</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
-
-      </tr>
-    </thead>
-    <tbody>  
-     <% for (key in teachers) {%>
-      <tr>
-        <td><%= teachers[key].id %> </td>
-        <td><%= teachers[key].name %> </td>
-        <td><%= teachers[key].age %> </td>
-        <td><button class = "btn btn-secondary" id = "edit-button" data-toggle = "modal" data-target = "#editTeacherModal" data-id="<%= teachers[key].id%>" data-name="<%=teachers[key].name%>" data-age= "<%=teachers[key].age%>">edit</button></td>
-        <td><button class = "btn btn-danger" id = "delete-button" data-id="<%= teachers[key].id %> ">delete</button></td>
-        
-      </tr> 
-      <% } %>
-
-    </tbody>
-  </table>
-</div>
-
-<div class = "row justify-content-md-center">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTeacherModal">
+    <div class="row justify-content-md-center">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTeacherModal">
         Add new User
        </button>
-       <div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-             <div class="modal-content">
-                <form method="post" action = "/add">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">New Teacher</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <div class="modal fade" id="addTeacherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form method="post" action="/add">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">New Teacher</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
-                    </div>
-                    <div class="modal-body">                       
-                          <div class="form-group row">
-                              <label class="col-sm-6 col-form-label">id</label>
-                              <div class="col-sm-6">
-                                <input type="number"  class="form-control"  name = "id">
-                              </div>
-                              </div>
-                              <div class="form-group row">
-                                  <label class="col-sm-6 col-form-label">name</label>
-                            <div class="col-sm-6">
-                              <input type="text"  class="form-control"  name = "name">
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">id</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" name="id">
+                                </div>
                             </div>
-                          </div>
-                          <div class="form-group row">
-                            <label class="col-sm-6 col-form-label">age</label>
-                            <div class="col-sm-6">
-                              <input type="number" class="form-control"  name = "age">
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">name</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" name="name">
+                                </div>
                             </div>
-                          </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <input type="submit" class="btn btn-primary" id = "add-button" value = "save"/>
-                    </div>
-                  </form>
-                </div>               
-               
-           </div>
+                            <div class="form-group row">
+                                <label class="col-sm-6 col-form-label">age</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" name="age">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="add-button" value="save" />
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
-</div>
-<div class="modal fade" id="editTeacherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-       <form method="post" action = "/edit">
-         <div class="modal-header">
-             <h5 class="modal-title" id="exampleModalLabel">Edit Teacher</h5>
-             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    </div>
+    <div class="modal fade" id="editTeacherModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="/edit">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Teacher</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                <span aria-hidden="true">&times;</span>
              </button>
-           </div>
-           <div class="modal-body">                       
-                 <div class="form-group row">
-                     <label class="col-sm-6 col-form-label">id</label>
-                     <div class="col-sm-6">
-                       <input type="text"  class="form-control" name = "id" id="teachId">
-                     </div>
-                     </div>
-                     <div class="form-group row">
-                         <label class="col-sm-6 col-form-label">name</label>
-                   <div class="col-sm-6">
-                     <input type="text"  class="form-control" name = "name" id= "teachName">
-                   </div>
-                 </div>
-                 <div class="form-group row">
-                   <label class="col-sm-6 col-form-label">age</label>
-                   <div class="col-sm-6">
-                     <input type="text" class="form-control" name = "age" id = "teachAge">
-                   </div>
-                 </div>
-           </div>
-           <div class="modal-footer">
-             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             <input type="submit" class="btn btn-primary" id = "edit-button" value = "save"/>
-          </div>
-        </form>
-      </div>
-    </div>      
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-sm-6 col-form-label">id</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="id" id="teachId">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-6 col-form-label">name</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="name" id="teachName">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-6 col-form-label">age</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="age" id="teachAge">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="edit-button" value="save" />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-  </div>
- 
-  
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src = "js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
+
 </html>
